@@ -34,6 +34,7 @@ def clean_rows(rows: list[dict[str, str]]) -> tuple[list[tuple[str, ...]], LoadR
             amount = Decimal(row["amount"].strip())
             if not amount.is_finite() or amount < 0:
                 raise InvalidOperation
+            amount_text = str(amount.quantize(Decimal("0.01")))
         except (InvalidOperation, ValueError, KeyError):
             invalid_amounts += 1
             continue
@@ -43,7 +44,7 @@ def clean_rows(rows: list[dict[str, str]]) -> tuple[list[tuple[str, ...]], LoadR
             row["customer"].strip(),
             row["country"].strip(),
             row["product"].strip(),
-            str(amount.quantize(Decimal("0.01"))),
+            amount_text,
             row["status"].strip(),
         )
         if record in seen:

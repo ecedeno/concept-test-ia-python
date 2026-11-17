@@ -26,6 +26,7 @@ SELECT
     ROUND(SUM(amount), 2) AS total_sales,
     COUNT(*) AS order_count
 FROM orders
+WHERE status = 'completado'
 GROUP BY year, month, country;
 
 DROP VIEW IF EXISTS top_customers;
@@ -35,6 +36,7 @@ SELECT
     ROUND(SUM(amount), 2) AS total_spent,
     COUNT(*) AS order_count
 FROM orders
+WHERE status = 'completado'
 GROUP BY customer
 ORDER BY total_spent DESC
 LIMIT 10;
